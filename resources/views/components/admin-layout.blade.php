@@ -75,6 +75,12 @@
               <p>My Courses</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('instructor.qna.index') }}" class="nav-link {{ request()->routeIs('instructor.qna.*') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-comments"></i>
+              <p>Q&A Panel</p>
+            </a>
+          </li>
           @endrole
 
           @role('Admin')

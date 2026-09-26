@@ -50,6 +50,9 @@
                                         @endif
                                     </td>
                                     <td>
+                                        <a href="{{ route('instructor.courses.curriculum', $course) }}" class="btn btn-sm btn-success">
+                                            <i class="fas fa-list"></i> Curriculum
+                                        </a>
                                         <a href="{{ route('instructor.courses.edit', $course) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-edit"></i> Edit
                                         </a>

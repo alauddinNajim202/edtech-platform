@@ -25,6 +25,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/learn/{course:slug}/{lesson}/complete', [FrontendCourseController::class, 'completeLesson'])->name('courses.lesson.complete');
     Route::post('/enroll/{course:slug}', [EnrollmentController::class, 'enroll'])->name('courses.enroll');
     Route::delete('/unenroll/{course:slug}', [EnrollmentController::class, 'unenroll'])->name('courses.unenroll');
+    Route::get('/resources/{resource}/download', [FrontendCourseController::class, 'downloadResource'])->name('resources.download');
+    
+    // Q&A Routes
+    Route::post('/lessons/{lesson}/questions', [\App\Http\Controllers\Frontend\QnaController::class, 'storeQuestion'])->name('questions.store');
+    Route::post('/questions/{question}/replies', [\App\Http\Controllers\Frontend\QnaController::class, 'storeReply'])->name('replies.store');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -38,6 +43,14 @@ Route::middleware(['auth', 'role:Admin'])->prefix('admin')->name('admin.')->grou
 
 Route::middleware(['auth', 'role:Instructor'])->prefix('instructor')->name('instructor.')->group(function () {
     Route::resource('courses', \App\Http\Controllers\CourseController::class);
+    Route::get('courses/{course}/curriculum', [\App\Http\Controllers\Instructor\CurriculumController::class, 'index'])->name('courses.curriculum');
+    Route::post('courses/{course}/modules', [\App\Http\Controllers\Instructor\CurriculumController::class, 'storeModule'])->name('modules.store');
+    Route::post('modules/{module}/lessons', [\App\Http\Controllers\Instructor\CurriculumController::class, 'storeLesson'])->name('lessons.store');
+    Route::post('lessons/{lesson}/resources', [\App\Http\Controllers\Instructor\CurriculumController::class, 'storeResource'])->name('resources.store');
+
+    // Instructor Q&A
+    Route::get('qna', [\App\Http\Controllers\Instructor\QnaController::class, 'index'])->name('qna.index');
+    Route::post('qna/{question}/reply', [\App\Http\Controllers\Instructor\QnaController::class, 'reply'])->name('qna.reply');
 });
 
 require __DIR__.'/auth.php';

@@ -27,6 +27,16 @@ class Lesson extends Model
         return $this->hasMany(LessonProgress::class);
     }
 
+    public function resources(): HasMany
+    {
+        return $this->hasMany(LessonResource::class);
+    }
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(LessonQuestion::class)->latest();
+    }
+
     public function isCompletedBy(int $userId): bool
     {
         return $this->progress()
