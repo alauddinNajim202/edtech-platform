@@ -40,4 +40,16 @@ class Course extends Model
     {
         return $this->hasMany(Module::class);
     }
+
+    public function enrollments(): HasMany
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function students(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'enrollments')
+            ->withPivot(['enrolled_at', 'completed_at'])
+            ->withTimestamps();
+    }
 }

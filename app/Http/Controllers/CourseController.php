@@ -45,7 +45,7 @@ class CourseController extends Controller
             'price' => $request->price,
             'category_id' => $request->category_id,
             'instructor_id' => Auth::id(),
-            'status' => 'draft',
+            'status' => 'pending',
         ]);
 
         if ($request->hasFile('thumbnail')) {
@@ -58,7 +58,7 @@ class CourseController extends Controller
             $course->tags()->sync($request->tags);
         }
 
-        return redirect()->route('instructor.courses.index')->with('success', 'Course created successfully and is in draft mode.');
+        return redirect()->route('instructor.courses.index')->with('success', 'Course created successfully and is pending admin approval.');
     }
 
     public function show(Course $course)

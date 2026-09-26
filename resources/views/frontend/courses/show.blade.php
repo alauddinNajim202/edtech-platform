@@ -48,12 +48,26 @@
                             {{ $course->price > 0 ? '$'.number_format($course->price, 2) : 'Free' }}
                         </div>
                         <p class="text-gray-400 text-sm mb-5">One-time purchase, lifetime access</p>
-                        <a href="{{ route('courses.learn', $course->slug) }}" class="block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl shadow-xl shadow-indigo-200 transition-all hover:-translate-y-0.5 text-lg mb-3">
-                            Enroll Now
+
+                    @auth
+                        @if($isEnrolled)
+                            <a href="{{ route('courses.learn', $course->slug) }}" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-2xl shadow-xl shadow-emerald-200 transition-all hover:-translate-y-0.5 text-lg mb-3">
+                                Go to Learning →
+                            </a>
+                            <p class="text-center text-sm text-emerald-600 font-semibold">✓ You are enrolled in this course</p>
+                        @else
+                            <form action="{{ route('courses.enroll', $course->slug) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl shadow-xl shadow-indigo-200 transition-all hover:-translate-y-0.5 text-lg mb-3">
+                                    Enroll Now
+                                </button>
+                            </form>
+                        @endif
+                    @else
+                        <a href="{{ route('login') }}" class="block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl shadow-xl shadow-indigo-200 transition-all hover:-translate-y-0.5 text-lg mb-3">
+                            Sign in to Enroll
                         </a>
-                        <button class="block w-full text-center bg-gray-50 hover:bg-gray-100 text-gray-700 font-bold py-3 rounded-2xl transition-all text-sm border border-gray-200">
-                            Try Free Preview
-                        </button>
+                    @endauth
                         <div class="mt-5 space-y-2.5 text-sm text-gray-500">
                             <div class="flex items-center gap-2.5">
                                 <svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
